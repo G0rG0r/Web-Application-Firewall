@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- WAF Human Verifications-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Verify</title>
+    
+    <script>
+        let lastY=0;
+        let lastX=0;
+
+        document.addEventListener('mousemove', function(event) {
+        lastX = event.clientX;
+        lastY = event.clientY;
+
+    });
+
+    function verifyHuman() {
+        const checkbox = document.getElementById('humanCheckbox');
+        const verificationMessage = document.getElementById('verificationMessage');
+        const image = document.getElementById('img');
+        image.src = "Pictures/susbicios.png";
+
+        if (checkbox.checked) {
+            if(lastY==0 || lastX==0){
+                verificationMessage.textContent = "try again";
+                verificationMessage.style.color = 'red';
+                return;
+            }
+            //verifed user UI
+            verificationMessage.textContent = "Verified";
+            image.src = "Pictures/approved.png";
+            verificationMessage.style.color = 'green';
+            // verified user back-end
+            const payload = { status: "verified"};
+            const serverEndpoint = '/verify-human';
+            fetch(serverEndpoint, {
+              method: 'POST',
+                 headers: {
+                'Content-Type': 'application/json' 
+            },
+         body: JSON.stringify(payload)
+        });
+            setTimeout(() => {
+                window.location.href="/";
+            }, 2000);
+        } else {
+            verificationMessage.textContent = "Click here to verify";
+            verificationMessage.style.color = 'black';
+        }
+    }
+    </script>
+    
+    <style>
+        body {
+            background-color: rgb(219, 215, 215);
+            min-height: 100vh; 
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        #center {
+            padding: 1.5em;
+            
+            width: 400px;
+            height: auto;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        #innerbox {
+            padding: 0.8em;
+            gap: 1.5em;
+            justify-content: flex-start;
+            display: flex;
+            align-items: center;
+            width: 90%; 
+            margin: 1em auto;
+            min-height: 50px;
+            background-color: rgb(230, 230, 230); 
+            border: black 2px solid;
+            border-radius: 10px;
+        }
+        
+        input[type="checkbox"] {
+            width: 30px;
+            height: 30px;
+            cursor: pointer; 
+            margin-left: 0.5em;
+        }
+
+        #verificationMessage {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div id="center">
+        <h1>Are you a human?</h1>
+        <img id="img" src="Pictures/susbicios.png" width="100em" height="100em">
+        <div id="innerbox">
+            <input type="checkbox" id="humanCheckbox" onchange="verifyHuman()">
+            
+            <p id="verificationMessage">Click here to verify</p>
+        </div>
+        
+    </div>
+
+</body>
+</html>

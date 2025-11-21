@@ -1,0 +1,26 @@
+#######################################################################
+-----------------------{ WAF Configurations }--------------------------
+
+Destination Server Ip Below
+IP Address:0.0.0.0
+
+Destination Server Port Below
+Port:80
+
+Security Level choose between 0 and 1 , 0 being no Security 1 full security
+Security Level:1	
+
+do not try to edit this file's format 
+
+the deletion of the config file will result in the WAF not working !
+use it on your own risk !
+
+\\ made by ZeroByte //
+
+
+
+
+
+
+#######################################################################
+-----------------------{ End of Configuration }------------------------
